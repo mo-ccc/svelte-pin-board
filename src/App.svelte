@@ -1,5 +1,6 @@
 <script>
-	let cards = [1, "here"];
+	console.log(localStorage.card);
+	var cards = JSON.parse(localStorage.cards);
 
 	function add_card() {
 		cards.push("");
@@ -9,6 +10,14 @@
 	function update(index) {
 		const b = document.getElementById('card' + index);
 		cards[index] = b.innerHTML;
+		console.log(cards);
+		localStorage.cards = JSON.stringify(cards);
+		console.log("local", localStorage.cards);
+	}
+	
+	function reset() {
+		localStorage.cards = JSON.stringify([]);
+		cards = [];
 	}
 	
 </script>
@@ -22,6 +31,7 @@
 			{/each}
 		</div>
 		<button class="plus-button" on:click={add_card}>+</button>
+		<button on:click={reset}>clear</button>
 	</div>
 </main>
 
