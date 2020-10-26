@@ -1,15 +1,26 @@
 <script>
+	let cards = [1, "here"];
+
 	function add_card() {
-		var div = document.createElement('div');
-		div.setAttribute('class', 'popout');
-		document.getElementById('board').appendChild(div);
+		cards.push("");
+		cards[0] = cards[0];
+		console.log(cards);
 	}
+	function update(index) {
+		const b = document.getElementById('card' + index);
+		cards[index] = b.innerHTML;
+	}
+	
 </script>
 
 <main id="main">
 	<div>
 		<h1>card czar</h1>
-		<div class="board" id="board"/>
+		<div class="board" id="board">
+			{#each cards as card, index}
+				<div contentEditable="true" on:blur={() => update(index)} class="popout" id="card{index}">{card}</div>
+			{/each}
+		</div>
 		<button class="plus-button" on:click={add_card}>+</button>
 	</div>
 </main>
