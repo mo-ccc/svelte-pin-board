@@ -7,10 +7,11 @@
 </script>
 
 <main id="main">
-	<h1>card czar</h1>
-	<div class="board" id="board">
+	<div>
+		<h1>card czar</h1>
+		<div class="board" id="board"/>
+		<button class="plus-button" on:click={add_card}>+</button>
 	</div>
-	<button class="plus-button" on:click={add_card}>+</button>
 </main>
 
 <style>
@@ -19,8 +20,6 @@
 	}
 	
 	.plus-button {
-		left: 20px;
-		bottom: 10px;
 		color: green;
 		padding: 8px 20px;
 		background-color: #fa999f;
@@ -28,13 +27,16 @@
 	
 	.board {
 		display: grid;
+		grid-template-columns: 150px 150px 150px;
+		column-gap: 50px;
+		row-gap: 20px;
+		padding: 40px;
+		min-height: 400px;
 	}
 	
 	main {
-		text-align: center;
-		padding: 1em;
-		max-width: 240px;
-		margin: 0 auto;
+		display: flex;
+		justify-content: center;
 	}
 
 	h1 {
