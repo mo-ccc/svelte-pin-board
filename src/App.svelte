@@ -1,15 +1,16 @@
 <script>
 	function add_card() {
 		var div = document.createElement('div');
-		div.setAttribute('class', 'plus-button');
-		document.body.main.appendChild(div);
+		div.setAttribute('class', 'popout');
+		document.getElementById('board').appendChild(div);
 	}
 </script>
 
-<main>
+<main id="main">
 	<h1>card czar</h1>
-	<div class="popout"></div>
-	<button class="plus-button" on:click={add_card()}>+</button>
+	<div class="board" id="board">
+	</div>
+	<button class="plus-button" on:click={add_card}>+</button>
 </main>
 
 <style>
@@ -18,12 +19,15 @@
 	}
 	
 	.plus-button {
-		position: absolute;
 		left: 20px;
 		bottom: 10px;
 		color: green;
 		padding: 8px 20px;
 		background-color: #fa999f;
+	}
+	
+	.board {
+		display: grid;
 	}
 	
 	main {
@@ -40,7 +44,7 @@
 		font-weight: 100;
 	}
 	
-	.popout {
+	:global(.popout) {
 		background-color: white;
 		height: 200px;
 		width: 150px;
