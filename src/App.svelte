@@ -1,7 +1,13 @@
 <script>
-	console.log(localStorage.card);
+	console.log(localStorage.cards);
 	var cards = JSON.parse(localStorage.cards);
 
+	function cleanse_text(text) {
+		text.replace("<div>", " ");
+		text.replace("<br>", " ");
+		return text;
+	}
+	
 	function add_card() {
 		cards.push("");
 		cards[0] = cards[0];
@@ -9,7 +15,7 @@
 	}
 	function update(index) {
 		const b = document.getElementById('card' + index);
-		cards[index] = b.innerHTML;
+		cards[index] = b.innerText;
 		console.log(cards);
 		localStorage.cards = JSON.stringify(cards);
 		console.log("local", localStorage.cards);
@@ -24,7 +30,7 @@
 
 <main id="main">
 	<div>
-		<h1>card czar</h1>
+		<h1>card wall</h1>
 		<div class="board" id="board">
 			{#each cards as card, index}
 				<div contentEditable="true" on:blur={() => update(index)} class="popout" id="card{index}">{card}</div>
@@ -52,7 +58,7 @@
 		column-gap: 50px;
 		row-gap: 20px;
 		padding: 40px;
-		min-height: 400px;
+		min-height: 300px;
 	}
 	
 	main {
@@ -71,14 +77,23 @@
 		background-color: white;
 		height: 200px;
 		width: 150px;
+		padding: 10px;
 		border-radius: 10px;
 		box-shadow: 0 4px 8px 0 rgba(0,0,0,0.5);
-		transition: transform 0.05s
+		transition: transform 0.05s;
+		white-space: normal;
+		color: #ff3e00;
+		word-wrap: break-word;
+		overflow-wrap: break-word;
 	}
 	
 	.popout:hover {
 		transform: scale(1.01);
 		box-shadow: 0 8px 16px 0 rgba(0,0,0,0.5);
+	}
+	
+	.popout:focus {
+		outline: none;
 	}
 
 	@media (min-width: 640px) {
