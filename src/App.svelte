@@ -1,12 +1,6 @@
 <script>
 	console.log(localStorage.cards);
 	var cards = JSON.parse(localStorage.cards);
-
-	function cleanse_text(text) {
-		text.replace("<div>", " ");
-		text.replace("<br>", " ");
-		return text;
-	}
 	
 	function add_card() {
 		cards.push("");
@@ -15,7 +9,7 @@
 	}
 	function update(index) {
 		const b = document.getElementById('card' + index);
-		cards[index] = b.innerText;
+		cards[index] = b.value;
 		console.log(cards);
 		localStorage.cards = JSON.stringify(cards);
 		console.log("local", localStorage.cards);
@@ -26,6 +20,13 @@
 		cards = [];
 	}
 	
+	function delete_card(index) {
+		console.log('delete', index);
+		cards.splice(index, 1);
+		cards[0] = cards[0];
+		localStorage.cards = JSON.stringify(cards);
+	}
+	
 </script>
 
 <main id="main">
@@ -33,7 +34,11 @@
 		<h1>card wall</h1>
 		<div class="board" id="board">
 			{#each cards as card, index}
-				<div contentEditable="true" on:blur={() => update(index)} class="popout" id="card{index}">{card}</div>
+				<div class="popout">
+					<button on:click={() => delete_card(index)}>-</button>
+					<textarea on:blur={() => update(index)} id="card{index}" class="cardtext">{card}</textarea>
+				</div>
+				
 			{/each}
 		</div>
 		<button class="plus-button" on:click={add_card}>+</button>
@@ -92,8 +97,15 @@
 		box-shadow: 0 8px 16px 0 rgba(0,0,0,0.5);
 	}
 	
-	.popout:focus {
+	.cardtext:focus {
 		outline: none;
+	}
+	
+	.cardtext {
+		width: 100%;
+		height: 80%;
+		border: none;
+		resize: none;
 	}
 
 	@media (min-width: 640px) {
