@@ -1,7 +1,8 @@
 <script>
+	import {fade} from 'svelte/transition';
+	import {scale} from 'svelte/transition';
 	console.log(localStorage.cards);
 	var cards = JSON.parse(localStorage.cards);
-	var held;
 	
 	function add_card() {
 		cards.push("");
@@ -54,6 +55,7 @@
 		}
 		array_move(cards, index, min);
 		cards = cards;
+		localStorage.cards = JSON.stringify(cards);
 	}
 	
 	function getRectInfo(rect) {
@@ -67,10 +69,10 @@
 
 <main id="main">
 	<div>
-		<h1>card wall</h1>
+		<h1 transition:fade="{{duration: 4000}}">card wall</h1>
 		<div class="board" id="board">
 			{#each cards as card, index}
-				<div class="popout" draggable="true" on:dragend|stopPropagation={e => end_move(e, index)}>
+				<div class="popout" draggable="true" on:dragend|stopPropagation={e => end_move(e, index)} in:scale out:scale>
 					<div class="controls">
 						<button class="control" on:click={() => delete_card(index)}></button>
 					</div>
@@ -80,6 +82,7 @@
 		</div>
 		<button class="plus-button" on:click={add_card}>+</button>
 		<button on:click={reset}>clear</button>
+		<button on:click={() => localStorage.cards = JSON.stringify(cards)}>save</button>
 	</div>
 </main>
 
@@ -90,7 +93,7 @@
 	
 	.plus-button {
 		color: green;
-		padding: 8px 20px;
+		padding: 6px 18px;
 		background-color: #fa999f;
 	}
 	
@@ -101,9 +104,6 @@
 		row-gap: 20px;
 		padding: 40px;
 		min-height: 300px;
-	}
-	
-	.moving {
 	}
 	
 	.controls {
