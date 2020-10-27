@@ -1,6 +1,7 @@
 <script>
 	console.log(localStorage.cards);
 	var cards = JSON.parse(localStorage.cards);
+	var held;
 	
 	function add_card() {
 		cards.push("");
@@ -27,6 +28,41 @@
 		localStorage.cards = JSON.stringify(cards);
 	}
 	
+	function array_move(arr, old_index, new_index) {
+		if (new_index >= arr.length) {
+			var k = new_index - arr.length + 1;
+			while (k--) {
+				arr.push(undefined);
+			}
+		}
+		arr.splice(new_index, 0, arr.splice(old_index, 1)[0]);
+		return arr; // for testing
+	}
+	
+	function end_move(e, index) {
+		const allElem = [...document.querySelectorAll('div[class~="popout"]')];
+		// allElem.splice(index, 1);
+		var min = 0;
+		const cx = e.clientX;
+		const cy = e.clientY;
+		for (const x in allElem) {
+			const r = getRectInfo(allElem[x]);
+			const m = getRectInfo(allElem[min]);
+			if ((Math.abs(cx - r[0]) + Math.abs(cy - r[1]))/2 < (Math.abs(cx - m[0]) + Math.abs(cy - m[1]))) {
+				min = x;
+			}
+		}
+		array_move(cards, index, min);
+		cards = cards;
+	}
+	
+	function getRectInfo(rect) {
+		const r = rect.getBoundingClientRect();
+		const rx = r['left'] + (r['width']/2);
+		const ry = r['top'] + (r['height']/2);
+		return [rx, ry];
+	}
+	
 </script>
 
 <main id="main">
@@ -34,13 +70,12 @@
 		<h1>card wall</h1>
 		<div class="board" id="board">
 			{#each cards as card, index}
-				<div class="popout">
+				<div class="popout" draggable="true" on:dragend|stopPropagation={e => end_move(e, index)}>
 					<div class="controls">
 						<button class="control" on:click={() => delete_card(index)}></button>
 					</div>
 					<textarea on:blur={() => update(index)} id="card{index}" class="cardtext">{card}</textarea>
 				</div>
-				
 			{/each}
 		</div>
 		<button class="plus-button" on:click={add_card}>+</button>
@@ -66,6 +101,9 @@
 		row-gap: 20px;
 		padding: 40px;
 		min-height: 300px;
+	}
+	
+	.moving {
 	}
 	
 	.controls {
