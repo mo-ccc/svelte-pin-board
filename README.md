@@ -10,4 +10,4 @@ An app to post stylish messages to a tab
 - visit 'localhost:5000' in a browser of your choice
 
 ## preview
-(docs/preview.png)
+![preview](docs/preview.png)
