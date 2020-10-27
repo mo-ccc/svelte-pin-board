@@ -2,13 +2,14 @@
 	import {fade} from 'svelte/transition';
 	import {scale} from 'svelte/transition';
 	
-	if (localStorage.cards == undefined) {
-		localStorage.cards = [];
+	console.log(localStorage.cards);
+	if (localStorage.cards == undefined || localStorage.cards == null) {
+		localStorage.cards = JSON.stringify([]);
 	}
 	var cards = JSON.parse(localStorage.cards);
 	
-	if (localStorage.dark_mode == undefined) {
-		localStorage.dark_mode = false;
+	if (localStorage.dark_mode == undefined || localStorage.dark_mode == null) {
+		localStorage.dark_mode = JSON.stringify(false);
 	}
 	var dark_mode = JSON.parse(localStorage.dark_mode);
 	
