@@ -1,30 +1,45 @@
 <script>
 	import {fade} from 'svelte/transition';
 	import {scale} from 'svelte/transition';
-	console.log(localStorage.cards);
+	if (localStorage.cards == undefined) {
+		localStorage.cards = [];
+	}
 	var cards = JSON.parse(localStorage.cards);
+	if (localStorage.dark_mode == undefined) {
+		localStorage.dark_mode = false;
+	}
+	var dark_mode = JSON.parse(localStorage.dark_mode);
+	console.log(dark_mode);
+	if (dark_mode == true) {
+		window.document.body.classList.toggle('dark-mode');
+	}
 	
 	function add_card() {
 		cards.push("");
 		cards[0] = cards[0];
 	}
+	
+	// called after editing text and clicking off the textarea
 	function update(index) {
 		const b = document.getElementById('card' + index);
 		cards[index] = b.value;
 		localStorage.cards = JSON.stringify(cards);
 	}
 	
+	// clears all cards and localStorage
 	function reset() {
 		localStorage.cards = JSON.stringify([]);
 		cards = [];
 	}
 	
+	// removes data for a card
 	function delete_card(index) {
-		cards.splice(index, 1);
-		cards[0] = cards[0];
-		localStorage.cards = JSON.stringify(cards);
+		cards.splice(index, 1); // removes data from array
+		cards = cards; // refreshes the view
+		localStorage.cards = JSON.stringify(cards); // updates localStorage
 	}
 	
+	// borrowed function to shift items in array around
 	function array_move(arr, old_index, new_index) {
 		if (new_index >= arr.length) {
 			var k = new_index - arr.length + 1;
@@ -36,15 +51,16 @@
 		return arr; // for testing
 	}
 	
+	// called after a card is dragged and dropped
 	function end_move(e, index) {
-		const allElem = [...document.querySelectorAll('div[class~="popout"]')];
-		// allElem.splice(index, 1);
+		const allCards = [...document.querySelectorAll('div[class~="popout"]')];
 		var min = 0;
 		const cx = e.clientX;
 		const cy = e.clientY;
-		for (const x in allElem) {
-			const r = getRectInfo(allElem[x]);
-			const m = getRectInfo(allElem[min]);
+		// locates closest card to cursor
+		for (const x in allCards) {
+			const r = get_rect_center(allCards[x]);
+			const m = get_rect_center(allCards[min]);
 			if ((Math.abs(cx - r[0]) + Math.abs(cy - r[1]))/2 < (Math.abs(cx - m[0]) + Math.abs(cy - m[1]))) {
 				min = x;
 			}
@@ -54,11 +70,18 @@
 		localStorage.cards = JSON.stringify(cards);
 	}
 	
-	function getRectInfo(rect) {
+	// returns center point of an element
+	function get_rect_center(rect) {
 		const r = rect.getBoundingClientRect();
 		const rx = r['left'] + (r['width']/2);
 		const ry = r['top'] + (r['height']/2);
 		return [rx, ry];
+	}
+	
+	function toggle_theme() {
+		dark_mode = !dark_mode;
+		localStorage.dark_mode = JSON.stringify(dark_mode);
+		window.document.body.classList.toggle('dark-mode');
 	}
 	
 </script>
@@ -79,12 +102,17 @@
 		<button class="plus-button" on:click={add_card}>+</button>
 		<button on:click={reset}>clear</button>
 		<button on:click={() => localStorage.cards = JSON.stringify(cards)}>save</button>
+		<button on:click={toggle_theme}>dark/light</button>
 	</div>
 </main>
 
 <style>
 	:global(body) {
-		background-color: white;
+		background-color: #ffeeee;
+	}
+	
+	:global(body.dark-mode) {
+		background-color: #5f6160;
 	}
 	
 	.plus-button {
