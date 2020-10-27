@@ -7,14 +7,11 @@
 	function add_card() {
 		cards.push("");
 		cards[0] = cards[0];
-		console.log(cards);
 	}
 	function update(index) {
 		const b = document.getElementById('card' + index);
 		cards[index] = b.value;
-		console.log(cards);
 		localStorage.cards = JSON.stringify(cards);
-		console.log("local", localStorage.cards);
 	}
 	
 	function reset() {
@@ -23,7 +20,6 @@
 	}
 	
 	function delete_card(index) {
-		console.log('delete', index);
 		cards.splice(index, 1);
 		cards[0] = cards[0];
 		localStorage.cards = JSON.stringify(cards);
@@ -68,7 +64,7 @@
 </script>
 
 <main id="main">
-	<div>
+	<div class="center">
 		<h1 transition:fade="{{duration: 4000}}">card wall</h1>
 		<div class="board" id="board">
 			{#each cards as card, index}
@@ -97,12 +93,14 @@
 		background-color: #fa999f;
 	}
 	
+	.center {
+		text-align: center;
+		justify-content: center;
+	}
+	
 	.board {
-		display: grid;
-		grid-template-columns: 150px 150px 150px;
-		column-gap: 50px;
-		row-gap: 20px;
-		padding: 40px;
+		display: block;
+		justify-content: center;
 		min-height: 300px;
 	}
 	
@@ -129,13 +127,16 @@
 		text-transform: uppercase;
 		font-size: 4em;
 		font-weight: 100;
+		margin-bottom: 0px;
+		margin-top: 0px;
 	}
 	
-	:global(.popout) {
+	.popout {
 		background-color: white;
-		height: 200px;
-		width: 150px;
+		height: 400px;
+		width: 93%;
 		padding: 10px;
+		margin: 30px 0px;
 		border-radius: 10px;
 		box-shadow: 0 4px 8px 0 rgba(0,0,0,0.5);
 		transition: transform 0.05s;
@@ -160,10 +161,40 @@
 		font-size: 14px;
 		font-family: arial;
 	}
+	
+	@media (min-width: 359px) {
+		.board {
+			display: grid;
+			grid-template-columns: 150px 150px;
+			column-gap: 30px;
+			row-gap: 20px;
+			padding: 10px;
+			min-height: 300px;
+		}
+		
+		.popout {
+			height: 200px;
+			margin: 0px;
+		}
+		
+	}
 
 	@media (min-width: 640px) {
 		main {
 			max-width: none;
+		}
+		
+		.board {
+			display: grid;
+			grid-template-columns: 150px 150px 150px;
+			column-gap: 50px;
+			row-gap: 20px;
+			padding: 20px;
+			min-height: 300px;
+		}
+		
+		.popout {
+			width: 150px;
 		}
 	}
 </style>
