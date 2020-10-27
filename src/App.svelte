@@ -1,15 +1,17 @@
 <script>
 	import {fade} from 'svelte/transition';
 	import {scale} from 'svelte/transition';
+	
 	if (localStorage.cards == undefined) {
 		localStorage.cards = [];
 	}
 	var cards = JSON.parse(localStorage.cards);
+	
 	if (localStorage.dark_mode == undefined) {
 		localStorage.dark_mode = false;
 	}
 	var dark_mode = JSON.parse(localStorage.dark_mode);
-	console.log(dark_mode);
+	
 	if (dark_mode == true) {
 		window.document.body.classList.toggle('dark-mode');
 	}
