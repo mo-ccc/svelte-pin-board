@@ -35,7 +35,9 @@
 		<div class="board" id="board">
 			{#each cards as card, index}
 				<div class="popout">
-					<button on:click={() => delete_card(index)}>-</button>
+					<div class="controls">
+						<button class="control" on:click={() => delete_card(index)}></button>
+					</div>
 					<textarea on:blur={() => update(index)} id="card{index}" class="cardtext">{card}</textarea>
 				</div>
 				
@@ -66,6 +68,19 @@
 		min-height: 300px;
 	}
 	
+	.controls {
+		display: flex;
+		justify-content: flex-end;
+		margin-bottom: 0px;
+	}
+	
+	.control {
+		background-color: #fa999f;
+		border-radius: 2px;
+		padding: 3px 7px;
+		margin-bottom: 2px;	
+	}
+	
 	main {
 		display: flex;
 		justify-content: center;
@@ -86,10 +101,6 @@
 		border-radius: 10px;
 		box-shadow: 0 4px 8px 0 rgba(0,0,0,0.5);
 		transition: transform 0.05s;
-		white-space: normal;
-		color: #ff3e00;
-		word-wrap: break-word;
-		overflow-wrap: break-word;
 	}
 	
 	.popout:hover {
@@ -103,9 +114,13 @@
 	
 	.cardtext {
 		width: 100%;
-		height: 80%;
+		height: 90%;
 		border: none;
 		resize: none;
+		padding: 0px;
+		color: #ff3e00;
+		font-size: 14px;
+		font-family: arial;
 	}
 
 	@media (min-width: 640px) {
