@@ -9,5 +9,8 @@ An app to post stylish messages to a tab
 - run 'npm run dev'
 - visit 'localhost:5000' in a browser of your choice
 
+## live link
+https://musing-kowalevski-2d487b.netlify.app/
+
 ## preview
 ![preview](docs/preview.png)
