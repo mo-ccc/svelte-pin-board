@@ -22,6 +22,19 @@
 		cards[0] = cards[0];
 	}
 	
+	function handleKeydown(e) {
+		if (e.keyCode == 9) {
+			e.preventDefault();
+			const active = document.activeElement.id;
+			if (active.slice(0, 4) == 'card') {
+				const current_card = parseInt(active.slice(4, 5))
+				if (cards.length - 1 > current_card) {
+					document.getElementById('card' + (current_card + 1)).focus();
+				}
+			}
+		}
+	}
+	
 	// called after editing text and clicking off the textarea
 	function update(index) {
 		const b = document.getElementById('card' + index);
@@ -89,6 +102,7 @@
 	
 </script>
 
+<svelte:window on:keydown={handleKeydown}/>
 <main id="main">
 	<div class="center">
 		<h1 transition:fade="{{duration: 4000}}">card wall</h1>
