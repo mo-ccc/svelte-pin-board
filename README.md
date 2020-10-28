@@ -10,7 +10,7 @@ An app to post stylish messages to a tab
 - visit 'localhost:5000' in a browser of your choice
 
 ## live link
-https://musing-kowalevski-2d487b.netlify.app/
+https://practical-nightingale-daf9c2.netlify.app/
 
 ## preview
 ![preview](docs/preview.png)
